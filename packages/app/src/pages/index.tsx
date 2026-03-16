@@ -1,68 +1,83 @@
-import { manifest as pwaManifest } from '@manifest.json/json/pwa/manifest';
-import { manifest as extensionManifest } from '@manifest.json/json/extension/manifest';
+import {
+  LandingContent,
+  LandingTemplate,
+} from '@manifest.json/templates/LandingTemplate';
 import { NextPage } from 'next';
-import { useState } from 'react';
+
+const content: LandingContent = {
+  navbar: {
+    title: 'AppName',
+    buttonText: 'Open App',
+    buttonHref: '/app',
+  },
+  hero: {
+    title: 'Simple, Powerful, and Built for Speed',
+    tagline:
+      'A fast and intuitive app designed to help you get things done quickly and efficiently.',
+    buttonText: 'Get Started',
+    buttonHref: '/app',
+  },
+  features: {
+    title: 'Features',
+    items: [
+      {
+        id: 'fast',
+        emoji: '⚡',
+        title: 'Fast and Responsive',
+        description:
+          'Enjoy a smooth and responsive experience designed for speed and efficiency.',
+      },
+      {
+        id: 'easy',
+        emoji: '✨',
+        title: 'Easy to Use',
+        description:
+          'Clean and intuitive design that lets you focus on what matters most.',
+      },
+      {
+        id: 'powerful',
+        emoji: '🧰',
+        title: 'Powerful Tools',
+        description:
+          'Packed with useful features to help you work smarter and more effectively.',
+      },
+      {
+        id: 'privacy',
+        emoji: '🔒',
+        title: 'Privacy First',
+        description:
+          'Your data stays in your control with privacy-focused design and secure processing.',
+      },
+      {
+        id: 'accessible',
+        emoji: '🌐',
+        title: 'Accessible Anywhere',
+        description:
+          'Use the app from any modern browser on desktop, tablet, or mobile.',
+      },
+      {
+        id: 'lightweight',
+        emoji: '📦',
+        title: 'Lightweight',
+        description:
+          'Minimal dependencies and optimized performance for a fast loading experience.',
+      },
+    ],
+  },
+  cta: {
+    title: 'Ready to Get Started?',
+    description:
+      'Open the app and start using it instantly. No signup required.',
+    buttonText: 'Open App',
+    buttonHref: '/app',
+  },
+  footer: {
+    name: 'AppName',
+  },
+};
 
 const HomePage: NextPage = () => {
-  const [
-    { type = 'pwa', manifest = JSON.stringify(pwaManifest, null, 2) },
-    setState,
-  ] = useState<{
-    type: 'pwa' | 'extension';
-    manifest: string;
-  }>({ type: 'pwa', manifest: JSON.stringify(pwaManifest, null, 2) });
-
-  return (
-    <div className="divide-base-300 flex h-screen w-screen flex-col divide-y overflow-hidden">
-      <nav className="bg-base-300 shadow-2xl">
-        <div className="container mx-auto px-4 py-2 md:px-8 md:py-4">
-          <div className="flex items-center justify-between">
-            <span>manifest.json</span>
-            <button
-              type="button"
-              className="btn btn-xs btn-primary"
-              onClick={() => {
-                const newType = type === 'pwa' ? 'extension' : 'pwa';
-                const newManifest =
-                  type === 'pwa'
-                    ? JSON.stringify(extensionManifest, null, 2)
-                    : JSON.stringify(pwaManifest, null, 2);
-                setState((previous) => ({
-                  ...previous,
-                  type: newType,
-                  manifest: newManifest,
-                }));
-              }}>
-              {type === 'pwa' ? 'Extension' : 'PWA'}
-            </button>
-          </div>
-        </div>
-      </nav>
-      <div className="grow">
-        <div className="container mx-auto h-full w-full p-4 md:p-8">
-          <textarea
-            id="pwa.manifest.json"
-            name="pwa.manifest.json"
-            placeholder="PWA Manifest.json"
-            className="border-base-300 bg-base-300 h-full w-full rounded-lg border p-4 shadow-2xl md:p-8"
-            value={manifest}
-            onChange={(event) => {
-              setState((previous) => ({
-                ...previous,
-                manifest: event.target.value,
-              }));
-            }}></textarea>
-        </div>
-      </div>
-      <footer className="bg-base-300 shadow-2xl">
-        <div className="container mx-auto px-4 py-2 md:px-8 md:py-4">
-          <button type="button" className="btn btn-primary w-full">
-            Copy
-          </button>
-        </div>
-      </footer>
-    </div>
-  );
+  return <LandingTemplate content={content} />;
 };
 
 export default HomePage;
