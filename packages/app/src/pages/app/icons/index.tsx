@@ -9,15 +9,38 @@ type GeneratedIcon = {
   canvas: HTMLCanvasElement;
 };
 
-function resizeImage(img: HTMLImageElement, size: number): HTMLCanvasElement {
-  const canvas = document.createElement('canvas');
-  canvas.width = size;
-  canvas.height = size;
-  const ctx = canvas.getContext('2d')!;
-  ctx.imageSmoothingEnabled = true;
-  ctx.imageSmoothingQuality = 'high';
-  ctx.drawImage(img, 0, 0, size, size);
-  return canvas;
+function svgToCanvas(
+  svgText: string,
+  size: number
+): Promise<HTMLCanvasElement> {
+  return new Promise((resolve, reject) => {
+    const canvas = document.createElement('canvas');
+    canvas.width = size;
+    canvas.height = size;
+    const ctx = canvas.getContext('2d')!;
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+
+    // Force SVG to be square at target size for clean rendering
+    const sized = svgText
+      .replace(/width="[^"]*"/, `width="${size}"`)
+      .replace(/height="[^"]*"/, `height="${size}"`);
+
+    const blob = new Blob([sized], { type: 'image/svg+xml;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const img = new Image();
+
+    img.onload = () => {
+      ctx.drawImage(img, 0, 0, size, size);
+      URL.revokeObjectURL(url);
+      resolve(canvas);
+    };
+    img.onerror = () => {
+      URL.revokeObjectURL(url);
+      reject(new Error('Failed to render SVG'));
+    };
+    img.src = url;
+  });
 }
 
 const IconsPage: NextPage = () => {
@@ -25,45 +48,44 @@ const IconsPage: NextPage = () => {
   const [error, setError] = useState<string | null>(null);
   const [dragging, setDragging] = useState(false);
   const [sourceName, setSourceName] = useState<string | null>(null);
+  const [processing, setProcessing] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const processFile = useCallback((file: File) => {
+  const processFile = useCallback(async (file: File) => {
     setError(null);
     setIcons([]);
+    setProcessing(true);
 
-    if (file.type !== 'image/png') {
-      setError('Only PNG files are accepted.');
+    if (file.type !== 'image/svg+xml') {
+      setError('Only SVG files are accepted.');
+      setProcessing(false);
       return;
     }
 
-    const url = URL.createObjectURL(file);
-    const img = new Image();
+    try {
+      const svgText = await file.text();
 
-    img.onload = () => {
-      if (img.width !== 512 || img.height !== 512) {
-        setError(
-          `Image must be 512×512 px. Yours is ${img.width}×${img.height}.`
-        );
-        URL.revokeObjectURL(url);
+      // Validate it's a real SVG
+      if (!svgText.trim().startsWith('<svg') && !svgText.includes('<svg')) {
+        setError('Invalid SVG file.');
+        setProcessing(false);
         return;
       }
 
-      const generated: GeneratedIcon[] = SIZES.map((size) => {
-        const canvas = resizeImage(img, size);
-        return { size, dataUrl: canvas.toDataURL('image/png'), canvas };
-      });
+      const generated: GeneratedIcon[] = await Promise.all(
+        SIZES.map(async (size) => {
+          const canvas = await svgToCanvas(svgText, size);
+          return { size, dataUrl: canvas.toDataURL('image/png'), canvas };
+        })
+      );
 
       setIcons(generated);
       setSourceName(file.name);
-      URL.revokeObjectURL(url);
-    };
-
-    img.onerror = () => {
-      setError('Failed to load image.');
-      URL.revokeObjectURL(url);
-    };
-
-    img.src = url;
+    } catch {
+      setError('Failed to process SVG. Make sure it is a valid SVG file.');
+    } finally {
+      setProcessing(false);
+    }
   }, []);
 
   const handleFiles = useCallback(
@@ -81,12 +103,10 @@ const IconsPage: NextPage = () => {
   };
 
   const downloadAll = async () => {
-    // Dynamic import of JSZip via script tag approach
     const script = document.createElement('script');
     script.src =
       'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';
     document.head.appendChild(script);
-
     await new Promise((res) => (script.onload = res));
 
     // @ts-ignore
@@ -155,16 +175,16 @@ const IconsPage: NextPage = () => {
             </span>
           </div>
           <h1 className="text-base-content font-serif text-2xl font-bold tracking-wide">
-            Drop a 512×512 PNG
+            Drop an SVG icon
           </h1>
           <p className="text-base-content/40 text-[0.7rem] tracking-wide">
-            Generates all standard manifest icon sizes · 72 → 512 px
+            Vector source renders crisp PNGs at every size · 72 → 512 px
           </p>
         </div>
 
         {/* Drop zone */}
         <div
-          onClick={() => inputRef.current?.click()}
+          onClick={() => !processing && inputRef.current?.click()}
           onDragOver={(e) => {
             e.preventDefault();
             setDragging(true);
@@ -176,52 +196,105 @@ const IconsPage: NextPage = () => {
             handleFiles(e.dataTransfer.files);
           }}
           className={[
-            'border-primary/20 flex cursor-pointer flex-col items-center justify-center gap-4 rounded-none border py-14 transition-all duration-300',
-            dragging
-              ? 'border-primary/60 bg-primary/5'
-              : 'bg-base-200/30 hover:border-primary/40 hover:bg-primary/[0.03]',
+            'border-primary/20 flex cursor-pointer flex-col items-center justify-center gap-4 rounded-none border py-16 transition-all duration-300',
+            processing
+              ? 'border-primary/30 bg-primary/[0.03] cursor-wait'
+              : dragging
+                ? 'border-primary/60 bg-primary/5'
+                : 'bg-base-200/30 hover:border-primary/40 hover:bg-primary/[0.03]',
           ].join(' ')}>
           <input
             ref={inputRef}
             type="file"
-            accept="image/png"
+            accept="image/svg+xml,.svg"
             className="hidden"
             onChange={(e) => handleFiles(e.target.files)}
           />
-          {/* Icon */}
+
+          {/* Animated SVG icon */}
           <div className="border-primary/20 flex h-14 w-14 items-center justify-center border">
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              className="text-primary/40">
-              <path
-                d="M12 16V8M12 8L9 11M12 8L15 11"
-                stroke="currentColor"
-                strokeWidth="1.2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1"
-                stroke="currentColor"
-                strokeWidth="1.2"
-                strokeLinecap="round"
-              />
-            </svg>
+            {processing ? (
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                className="text-primary/60 animate-spin">
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="9"
+                  stroke="currentColor"
+                  strokeWidth="1.2"
+                  strokeDasharray="28"
+                  strokeDashoffset="10"
+                  strokeLinecap="round"
+                />
+              </svg>
+            ) : (
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                className="text-primary/40">
+                <rect
+                  x="3"
+                  y="3"
+                  width="18"
+                  height="18"
+                  rx="0"
+                  stroke="currentColor"
+                  strokeWidth="1.2"
+                />
+                <path
+                  d="M8 12 C8 9 11 7 12 9 C13 7 16 7 16 10 C18 10 18 13 16 13 H8 C6 13 6 10 8 10"
+                  stroke="currentColor"
+                  strokeWidth="1.1"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  fill="none"
+                />
+                <path
+                  d="M9 16 L12 13 L15 16"
+                  stroke="currentColor"
+                  strokeWidth="1.1"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            )}
           </div>
+
           <div className="flex flex-col items-center gap-1 text-center">
             <span className="text-base-content/60 text-sm font-light tracking-wide">
-              {dragging
-                ? 'Release to upload'
-                : 'Drop PNG here or click to browse'}
+              {processing
+                ? 'Rendering at all sizes…'
+                : dragging
+                  ? 'Release to upload'
+                  : 'Drop SVG here or click to browse'}
             </span>
             <span className="text-base-content/25 text-[0.6rem] tracking-[0.2em] uppercase">
-              Must be 512 × 512 px · PNG only
+              SVG only · any size · renders pixel-perfect at every output
             </span>
           </div>
         </div>
+
+        {/* Why SVG note */}
+        {icons.length === 0 && !error && !processing && (
+          <div className="border-primary/10 flex items-start gap-4 border-l-2 pl-4">
+            <div className="flex flex-col gap-1.5">
+              <span className="text-primary/50 text-[0.55rem] tracking-[0.3em] uppercase">
+                Why SVG?
+              </span>
+              <p className="text-base-content/30 text-[0.65rem] leading-relaxed">
+                Vector graphics render fresh at each pixel density — no
+                upscaling artifacts at 512px, no blurring at 72px. Each PNG is
+                generated at native resolution from the same source.
+              </p>
+            </div>
+          </div>
+        )}
 
         {/* Error */}
         {error && (
@@ -267,9 +340,6 @@ const IconsPage: NextPage = () => {
                     src={icon.dataUrl}
                     alt={`${icon.size}x${icon.size}`}
                     className="h-10 w-10 object-contain"
-                    style={{
-                      imageRendering: icon.size <= 96 ? 'pixelated' : 'auto',
-                    }}
                   />
                   <div className="flex flex-col items-center gap-1">
                     <span className="text-base-content/60 text-[0.6rem] font-medium tabular-nums">

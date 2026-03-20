@@ -18,7 +18,7 @@ self.__BUILD_MANIFEST = {
     "static/chunks/0.5zqim-1bn3w.js"
   ],
   "/app/icons": [
-    "static/chunks/0.9pzz.nqv262.js"
+    "static/chunks/0bl6gn9gi.5wx.js"
   ],
   "/version": [
     "static/chunks/0ma8dyzo7nz8x.js"
