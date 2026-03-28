@@ -1,10 +1,10 @@
 apply plugin: 'com.android.application'
 
 android {
-    namespace = "io.github.hieudoanm.manifest.json"
+    namespace = "io.github.hieudoanm.manifestjson"
     compileSdk = rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "io.github.hieudoanm.manifest.json"
+        applicationId "io.github.hieudoanm.manifestjson"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

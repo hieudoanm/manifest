@@ -1,4 +1,4 @@
-package io.github.hieudoanm.manifest.json;
+package io.github.hieudoanm.manifestjson;
 
 import com.getcapacitor.BridgeActivity;
 
