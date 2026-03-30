@@ -39,6 +39,9 @@ Manifest Json is a focused project in this monorepo that delivers a practical to
 - 💻 [CLI](https://github.com/hieudoanm/manifest.json/releases)
 - 📱 [Mobile](https://github.com/hieudoanm/manifest.json/releases)
 - 🖥️ [Desktop](https://github.com/hieudoanm/manifest.json/releases)
+  - 🍎 [MacOS](https://github.com/hieudoanm/manifest.json/releases/tag/macos-latest)
+  - 🐧 [Ubuntu](https://github.com/hieudoanm/manifest.json/releases/tag/ubuntu-latest)
+  - 🪟 [Windows](https://github.com/hieudoanm/manifest.json/releases/tag/windows-latest)
 
 ## 🛠️ 5. Development Stack
 
