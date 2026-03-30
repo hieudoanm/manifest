@@ -1,7 +1,7 @@
 .PHONY: lint format build install all
 
 BIN_DIR := bin
-BIN_NAME := manifest.json
+BIN_NAME := manifest
 SRC := ./main.go
 
 VERSION := $(shell date +%Y.%m.%d.%H.%M.%S)
