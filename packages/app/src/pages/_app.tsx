@@ -1,4 +1,4 @@
-import '@manifest.json/styles/globals.css';
+import '@manifest/styles/globals.css';
 import { HeadTemplate } from '../templates/HeadTemplate';
 import type { AppProps } from 'next/app';
 import { Geist, Geist_Mono } from 'next/font/google';
@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 const App: FC<AppProps> = ({ Component, pageProps }) => {
   return (
     <>
-      <HeadTemplate basic={{ title: 'manifest.json' }} />
+      <HeadTemplate basic={{ title: 'Manifest' }} />
       <div className={`${geistSans.className} ${geistMono.className}`}>
         <Component {...pageProps} />
       </div>

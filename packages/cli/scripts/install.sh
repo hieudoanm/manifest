@@ -4,7 +4,7 @@
 set -e
 
 BIN_NAME="manifest"
-REPO_URL="https://github.com/hieudoanm/manifest.json/raw/refs/heads/master/packages/cli/bin/manifest"
+REPO_URL="https://github.com/hieudoanm/manifest/raw/refs/heads/master/packages/cli/bin/manifest"
 INSTALL_DIR="/usr/local/bin"
 
 echo "Downloading $BIN_NAME..."

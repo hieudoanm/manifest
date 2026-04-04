@@ -1,8 +1,8 @@
-# 🚀 [Manifest Json](https://hieudoanm.github.io/manifest.json/)
+# 🚀 [Manifest](https://hieudoanm.github.io/manifest/)
 
 ## 📚 Table of Contents
 
-- [🚀 Manifest Json](#-manifest-json)
+- [🚀 Manifest](#-manifest)
   - [📚 Table of Contents](#-table-of-contents)
   - [📖 1. Overview](#-1-overview)
   - [✨ 2. Features](#-2-features)
@@ -31,17 +31,17 @@ Manifest Json is a focused project in this monorepo that delivers a practical to
 
 ## 🎥 3. Demo
 
-- 🌐 [Live Demo](https://hieudoanm.github.io/manifest.json/)
+- 🌐 [Live Demo](https://hieudoanm.github.io/manifest/)
 
 ## 🚀 4. Usage
 
-- 🌐 [Web](https://hieudoanm.github.io/manifest.json/)
-- 💻 [CLI](https://github.com/hieudoanm/manifest.json/releases)
-- 📱 [Mobile](https://github.com/hieudoanm/manifest.json/releases)
-- 🖥️ [Desktop](https://github.com/hieudoanm/manifest.json/releases)
-  - 🍎 [MacOS](https://github.com/hieudoanm/manifest.json/releases/tag/macos-latest)
-  - 🐧 [Ubuntu](https://github.com/hieudoanm/manifest.json/releases/tag/ubuntu-latest)
-  - 🪟 [Windows](https://github.com/hieudoanm/manifest.json/releases/tag/windows-latest)
+- 🌐 [Web](https://hieudoanm.github.io/manifest/)
+- 💻 [CLI](https://github.com/hieudoanm/manifest/releases)
+- 📱 [Mobile](https://github.com/hieudoanm/manifest/releases)
+- 🖥️ [Desktop](https://github.com/hieudoanm/manifest/releases)
+  - 🍎 [MacOS](https://github.com/hieudoanm/manifest/releases/tag/macos-latest)
+  - 🐧 [Ubuntu](https://github.com/hieudoanm/manifest/releases/tag/ubuntu-latest)
+  - 🪟 [Windows](https://github.com/hieudoanm/manifest/releases/tag/windows-latest)
 
 ## 🛠️ 5. Development Stack
 

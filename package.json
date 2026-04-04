@@ -1,17 +1,17 @@
 {
-  "name": "@manifest.json/workspace",
+  "name": "@manifest/workspace",
   "version": "0.0.1",
-  "description": "manifest.json",
+  "description": "manifest",
   "keywords": [
     "manifest"
   ],
-  "homepage": "https://hieudoanm.github.io/manifest.json",
+  "homepage": "https://hieudoanm.github.io/manifest",
   "bugs": {
-    "url": "https://github.com/hieudoanm/manifest.json/issues"
+    "url": "https://github.com/hieudoanm/manifest/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/hieudoanm/manifest.json.git"
+    "url": "git+ssh://git@github.com/hieudoanm/manifest.git"
   },
   "license": "GPL-3.0",
   "author": "hieudoanm <hieumdoan@gmail.com> (https://hieudoanm.github.io)",

@@ -1,4 +1,4 @@
-import { ErrorTemplate } from '@manifest.json/templates/ErrorTemplate';
+import { ErrorTemplate } from '@manifest/templates/ErrorTemplate';
 import { NextPage } from 'next';
 
 const messages = [

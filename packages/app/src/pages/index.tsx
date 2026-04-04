@@ -1,7 +1,7 @@
 import {
   LandingContent,
   LandingTemplate,
-} from '@manifest.json/templates/LandingTemplate';
+} from '@manifest/templates/LandingTemplate';
 import { NextPage } from 'next';
 
 const content: LandingContent = {

@@ -1,5 +1,5 @@
-import { manifest as pwaManifest } from '@manifest.json/json/pwa/manifest';
-import { manifest as extensionManifest } from '@manifest.json/json/extension/manifest';
+import { manifest as pwaManifest } from '@manifest/json/pwa/manifest';
+import { manifest as extensionManifest } from '@manifest/json/extension/manifest';
 import { NextPage } from 'next';
 import { useState } from 'react';
 
@@ -48,7 +48,7 @@ const EditorPage: NextPage = () => {
         <div className="mx-auto flex max-w-5xl items-center justify-between">
           <div className="flex items-center gap-3">
             <span className="text-primary/40 text-[0.55rem] tracking-[0.4em] uppercase">
-              manifest.json
+              manifest
             </span>
             <div className="bg-primary/20 h-3 w-px" />
             <span className="text-base-content font-serif text-sm font-bold tracking-wider">
@@ -95,7 +95,7 @@ const EditorPage: NextPage = () => {
         <div className="border-primary/10 bg-base-200/20 flex shrink-0 items-center gap-0 border-b">
           <div className="border-primary/30 flex items-center gap-2 border-r px-4 py-2">
             <span className="text-primary text-[0.6rem] tracking-[0.2em]">
-              manifest.json
+              manifest
             </span>
             <span className="text-primary/30 text-[0.5rem] tracking-[0.15em] uppercase">
               {type}

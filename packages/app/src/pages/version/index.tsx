@@ -1,5 +1,5 @@
+import { VersionTemplate } from '@manifest/templates/VersionTemplate';
 import { GetStaticProps, NextPage } from 'next';
-import { VersionTemplate } from '@manifest.json/templates/VersionTemplate';
 
 type Props = {
   version: string;

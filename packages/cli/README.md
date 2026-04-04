@@ -1,8 +1,8 @@
-# 🚀 `manifest.json` CLI
+# 🚀 Manifest CLI
 
 ## 📚 Table of Contents
 
-- [🚀 `manifest.json` CLI](#-manifestjson-cli)
+- [🚀 Manifest CLI](#-manifest-cli)
   - [📚 Table of Contents](#-table-of-contents)
   - [📦 Installation](#-installation)
   - [🚀 Usage](#-usage)
@@ -11,7 +11,7 @@
 ## 📦 Installation
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/hieudoanm/manifest.json/master/packages/cli/scripts/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/hieudoanm/manifest/master/packages/cli/scripts/install.sh | bash
 ```
 
 ## 🚀 Usage
