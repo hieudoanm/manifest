@@ -1,25 +1,34 @@
-# 🚀 Manifest CLI
+# 📦 cobra-md
 
-## 📚 Table of Contents
+Generate README.md documentation from a Cobra CLI
 
-- [🚀 Manifest CLI](#-manifest-cli)
-  - [📚 Table of Contents](#-table-of-contents)
-  - [📦 Installation](#-installation)
-  - [🚀 Usage](#-usage)
-  - [📄 License](#-license)
+cobra-md walks a Cobra command tree and generates a single README.md file documenting all commands, flags, and examples.
 
-## 📦 Installation
+---
+
+## 📚 Commands
+
+- `cobra-md version`
+
+## 🚩 Global Flags
+
+| Flag     | Shorthand | Type   | Default   | Description       |
+| -------- | --------- | ------ | --------- | ----------------- |
+| --help   | -h        | bool   | false     | help for cobra-md |
+| --output | -o        | string | README.md | Output file path  |
+
+---
+
+## `cobra-md version`
+
+Print the version number of the application
+
+Print the version number of the application.
+
+### 📋 Usage
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/hieudoanm/manifest/master/packages/cli/scripts/install.sh | bash
+cobra-md version
 ```
 
-## 🚀 Usage
-
-```bash
-manifest
-```
-
-## 📄 License
-
-[GNU General Public License - Version 3 (GPL-3.0)](https://opensource.org/license/gpl-3.0)
+---
